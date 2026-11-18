@@ -3,10 +3,21 @@ public class games {
     public string Janr;
     public int God;
     public int Reyt;
-    public games(string nazv, int god, int reyt) {
+    public int Proces;
+    public int Dostizheniya;
+    public games(string nazv, int god, int reyt,int proces) {
         Nazv = nazv;
         God = god;
         Reyt = reyt;
+        Proces = proces;
         Janr = "Action";
+        Dostizheniya = 0;
+    }
+    
+    public void AddDostizhenie(int skolko) {
+        Dostizheniya = Dostizheniya + skolko;
+    }
+    public bool igral() {
+    return Proces > 0;
     }
 }
