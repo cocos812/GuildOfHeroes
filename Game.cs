@@ -4,20 +4,28 @@ public class games {
     public int God;
     public int Reyt;
     public int Proces;
-    public int Dostizheniya;
-    public games(string nazv, int god, int reyt,int proces) {
+
+    public int Dostizheniya { get; private set; }
+
+    public games(string nazv, int god, int reyt, int proces) {
         Nazv = nazv;
         God = god;
         Reyt = reyt;
         Proces = proces;
         Janr = "Action";
+
         Dostizheniya = 0;
     }
-    
+
     public void AddDostizhenie(int skolko) {
-        Dostizheniya = Dostizheniya + skolko;
+        if (skolko <= 0) {
+            return;
+        }
+
+        Dostizheniya += skolko;
     }
+
     public bool igral() {
-    return Proces > 0;
+        return Proces > 0;
     }
 }

@@ -1,10 +1,25 @@
 public class Hero {
-    public string Name;
+    private string _name = "Безымянный герой";
+
+    public string Name {
+        get {
+            return _name;
+        }
+
+        private set {
+            if (string.IsNullOrWhiteSpace(value)) {
+                _name = "Безымянный герой";
+                return;
+            }
+
+            _name = value.Trim();
+        }
+    }
+    
     public int Health { get; private set; }
     public int MaxHealth { get; private set; }
-    public int Level;
-    public int Experience;
-
+    public int Level { get; private set; }
+    public int Experience { get; private set; }
     public Hero(string name, int health) {
         Name = name;
 
@@ -31,18 +46,23 @@ public class Hero {
         Level = 1;
         Experience = 0;
     }
-
-
     public void TakeDamage(int damage) {
-        if (damage <= 0) {
-            return;
-        }
-        Health -= damage;
+    if (damage <= 0) {
+        return;
+    }
+    Health -= damage;
+
         if (Health < 0) {
             Health = 0;
         }
+    Health -= damage;
+
+    if (Health < 0) {
+        Health = 0;
     }
-    public void Heal(int amount) {
+    }
+
+     public void Heal(int amount) {
         if (amount <= 0) {
             return;
         }
@@ -62,16 +82,20 @@ public class Hero {
             return;
         }
 
+        if (amount > 2147483647 - Experience) {
+            return;
+        }
+
         Experience += amount;
     }
     public bool IsAlive() {
-        return Health > 0;
+    return Health > 0;
     }
     public string GetInfo() {
-        return $">>> {Name} <<<\n" +
-               $"Здоровье: {Health}\n" +
-               $"Уровень: {Level}\n" +
-               $"Опыт: {Experience}";
+    return $">>> {Name} <<<\n" +
+           $"Здоровье: {Health}\n" +
+           $"Уровень: {Level}\n" +
+           $"Опыт: {Experience}";
     }
 
 }

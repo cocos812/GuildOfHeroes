@@ -1,11 +1,15 @@
 ﻿using System.Runtime.InteropServices;
 
+
 Hero yaroslav = new Hero("Ярослав", 100);
 Hero anastasia = new Hero("Анастасия", 90);
 Hero artem = new Hero("Артём", 120);
-Hero alexander = new Hero("Александр", 150);
+Hero alexander = new Hero("   Александр   ", 150);
 
+alexander.TakeDamage(10);
+alexander.Heal(10);
 
+Console.WriteLine(">>> Участники готовы <<<");
 
 Console.WriteLine();
 Console.WriteLine(yaroslav.GetInfo());
@@ -18,7 +22,7 @@ Console.WriteLine(artem.GetInfo());
 
 Console.WriteLine();
 Console.WriteLine(alexander.GetInfo());
-
+Console.WriteLine($"Предел здоровья Александра: {alexander.MaxHealth}");
 
 
 
@@ -109,6 +113,15 @@ if (gta6.Dostizheniya > 0) {
 } else {
     Console.WriteLine($"{gta6.Nazv}: достижений нет");
 }
+Console.WriteLine();
+Console.WriteLine("=== ПРОВЕРКА ДОСТИЖЕНИЙ ===");
+Console.WriteLine($"CS2 до действия: {cs2.Dostizheniya}");
+
+cs2.AddDostizhenie(3);
+Console.WriteLine($"CS2 после допустимого действия (+3): {cs2.Dostizheniya}");
+
+cs2.AddDostizhenie(-5);
+Console.WriteLine($"CS2 после недопустимого действия (-5): {cs2.Dostizheniya}");
 
 
 
