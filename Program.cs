@@ -1,28 +1,40 @@
 ﻿using System.Runtime.InteropServices;
 
+//Probe.Run();
 
 Hero yaroslav = new Hero("Ярослав", 100);
 Hero anastasia = new Hero("Анастасия", 90);
 Hero artem = new Hero("Артём", 120);
 Hero alexander = new Hero("   Александр   ", 150);
+Hero sergey = new Hero("Сергей", 110);
 
 alexander.TakeDamage(10);
 alexander.Heal(10);
 
-Console.WriteLine(">>> Участники готовы <<<");
+Guild guild = new Guild("Гильдия героев");
 
-Console.WriteLine();
-Console.WriteLine(yaroslav.GetInfo());
+guild.Heroes.Add(yaroslav);
+guild.Heroes.Add(anastasia);
+guild.Heroes.Add(artem);
+guild.Heroes.Add(alexander);
+guild.Heroes.Add(sergey);
 
-Console.WriteLine();
-Console.WriteLine(anastasia.GetInfo());
+Console.WriteLine($">>> {guild.Name}: перекличка <<<");
+Console.WriteLine($"Участников: {guild.Heroes.Count}");
 
+if (guild.Heroes.Count > 0) {
+    Console.WriteLine($"Первый: {guild.Heroes[0].Name}");
+    Console.WriteLine($"Последний: {guild.Heroes[guild.Heroes.Count - 1].Name}");
+}
 Console.WriteLine();
-Console.WriteLine(artem.GetInfo());
-
-Console.WriteLine();
-Console.WriteLine(alexander.GetInfo());
-Console.WriteLine($"Предел здоровья Александра: {alexander.MaxHealth}");
+foreach (Hero hero in guild.Heroes) {
+    Console.WriteLine(hero.GetInfo());
+    Console.WriteLine();
+}
+foreach (Hero hero in guild.Heroes) {
+    Console.WriteLine(hero.GetInfo());
+    Console.WriteLine();
+} 
 
 
 
@@ -30,9 +42,9 @@ Console.WriteLine($"Предел здоровья Александра: {alexand
 
 
 ///////////////////////
-games cs2 = new games("Counter-Strike 2", 2023, 2,1200);
-games pubg = new games("PUBG", 2017, 10,600);
-games gta6 = new games("GTA VI", 2026, 1,0);
+games cs2 = new games("Counter-Strike 2", 2023, 2,1200, 0);
+games pubg = new games("PUBG", 2017, 10,600, 0);
+games gta6 = new games("GTA VI", 2026, 1,0, 0);
 Console.WriteLine();
 
 Console.WriteLine(">>> Жестки Гамес 1 <<<");
@@ -122,6 +134,44 @@ Console.WriteLine($"CS2 после допустимого действия (+3):
 
 cs2.AddDostizhenie(-5);
 Console.WriteLine($"CS2 после недопустимого действия (-5): {cs2.Dostizheniya}");
+
+
+
+List<games> catalog = new List<games>();
+catalog.Add(cs2);
+catalog.Add(pubg);
+catalog.Add(gta6);
+
+Console.WriteLine();
+Console.WriteLine($"В каталоге игр: {catalog.Count}");
+
+if (catalog.Count > 0) {
+    Console.WriteLine($"Первая: {catalog[0].Nazv}");
+    Console.WriteLine($"Последняя: {catalog[catalog.Count - 1].Nazv}");
+}
+
+Console.WriteLine();
+foreach (games g in catalog) {
+    Console.WriteLine($">>> {g.Nazv} ({g.God}) <<<");
+    Console.WriteLine($"Рейтинг: {g.Reyt}");
+    Console.WriteLine($"Часов: {g.Proces}");
+    Console.WriteLine($"Достижений: {g.Dostizheniya}");
+    Console.WriteLine();
+}
+
+games eldenRing = new games("Elden Ring", 2022, 9, 300, 0);
+catalog.Add(eldenRing);
+
+int highRated = 0;
+foreach (games g in catalog) {
+    if (g.Reyt >= 9) {
+        highRated += 1;
+    }
+}
+Console.WriteLine($"Игр с рейтингом от 9: {highRated}");
+
+cs2.AddDostizhenie(1);
+Console.WriteLine($"CS2 достижений через список: {catalog[0].Dostizheniya}");
 
 
 

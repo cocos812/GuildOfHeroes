@@ -7,7 +7,7 @@ public class games {
 
     public int Dostizheniya { get; private set; }
 
-    public games(string nazv, int god, int reyt, int proces) {
+    public games(string nazv, int god, int reyt, int proces, int dostizheniya) {
         Nazv = nazv;
         God = god;
         Reyt = reyt;
