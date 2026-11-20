@@ -12,29 +12,45 @@ alexander.TakeDamage(10);
 alexander.Heal(10);
 
 Guild guild = new Guild("Гильдия героев");
+guild.AddHero(yaroslav);
+guild.AddHero(anastasia);
+guild.AddHero(artem);
+guild.AddHero(alexander);
+guild.AddHero(sergey);
 
-guild.Heroes.Add(yaroslav);
-guild.Heroes.Add(anastasia);
-guild.Heroes.Add(artem);
-guild.Heroes.Add(alexander);
-guild.Heroes.Add(sergey);
+List<Hero> members = guild.GetMembers();
 
 Console.WriteLine($">>> {guild.Name}: перекличка <<<");
-Console.WriteLine($"Участников: {guild.Heroes.Count}");
+Console.WriteLine($"Участников: {guild.MemberCount}");
 
-if (guild.Heroes.Count > 0) {
-    Console.WriteLine($"Первый: {guild.Heroes[0].Name}");
-    Console.WriteLine($"Последний: {guild.Heroes[guild.Heroes.Count - 1].Name}");
+if (members.Count > 0) {
+    Console.WriteLine($"Первый: {members[0].Name}");
+    Console.WriteLine($"Последний: {members[members.Count - 1].Name}");
 }
+
 Console.WriteLine();
-foreach (Hero hero in guild.Heroes) {
+foreach (Hero hero in members) {
     Console.WriteLine(hero.GetInfo());
     Console.WriteLine();
 }
-foreach (Hero hero in guild.Heroes) {
-    Console.WriteLine(hero.GetInfo());
-    Console.WriteLine();
-} 
+
+// Hero? found = guild.FindHeroByName(" аРтЁм ");
+// if (found != null) {
+//     Console.WriteLine($"Найден по запросу « аРтЁм »: {found.Name}");
+// } else {
+//     Console.WriteLine("По запросу « аРтЁм » никого нет.");
+// }
+
+Console.WriteLine($"Повтор Александра принят: {guild.AddHero(alexander)}");
+Console.WriteLine($"Удалён отсутствующий: {guild.RemoveHero("Борис")}");
+Console.WriteLine($"Участников после проверок: {guild.MemberCount}");
+
+Console.WriteLine($"Могут нести тяжёлые ящики (здоровье от 120): {guild.CountHealthy(120)}");
+
+Hero? strongest = guild.FindStrongest();
+if (strongest != null) {
+    Console.WriteLine($"Самый здоровый: {strongest.Name} ({strongest.Health})");
+}
 
 
 
@@ -137,21 +153,22 @@ Console.WriteLine($"CS2 после недопустимого действия (
 
 
 
-List<games> catalog = new List<games>();
-catalog.Add(cs2);
-catalog.Add(pubg);
-catalog.Add(gta6);
+GameCatalog catalog = new GameCatalog("Жестки Гамес");
 
 Console.WriteLine();
-Console.WriteLine($"В каталоге игр: {catalog.Count}");
+Console.WriteLine($"Принята CS2: {catalog.AddGame(cs2)}");
+Console.WriteLine($"Принята PUBG: {catalog.AddGame(pubg)}");
+Console.WriteLine($"Принята GTA VI: {catalog.AddGame(gta6)}");
 
-if (catalog.Count > 0) {
-    Console.WriteLine($"Первая: {catalog[0].Nazv}");
-    Console.WriteLine($"Последняя: {catalog[catalog.Count - 1].Nazv}");
-}
+games eldenRing = new games("Elden Ring", 2022, 9, 300, 0);
+Console.WriteLine($"Принята Elden Ring: {catalog.AddGame(eldenRing)}");
 
+Console.WriteLine($"Повтор CS2 принят: {catalog.AddGame(cs2)}");
+Console.WriteLine($"В каталоге игр: {catalog.GameCount}");
+
+List<games> slov = catalog.GetGames();
 Console.WriteLine();
-foreach (games g in catalog) {
+foreach (games g in slov) {
     Console.WriteLine($">>> {g.Nazv} ({g.God}) <<<");
     Console.WriteLine($"Рейтинг: {g.Reyt}");
     Console.WriteLine($"Часов: {g.Proces}");
@@ -159,19 +176,21 @@ foreach (games g in catalog) {
     Console.WriteLine();
 }
 
-games eldenRing = new games("Elden Ring", 2022, 9, 300, 0);
-catalog.Add(eldenRing);
-
-int highRated = 0;
-foreach (games g in catalog) {
-    if (g.Reyt >= 9) {
-        highRated += 1;
-    }
+games? found = catalog.FindByName("  counter-strike 2 ");
+if (found != null) {
+    Console.WriteLine($"Найден по запросу «  counter-strike 2 »: {found.Nazv}");
+} else {
+    Console.WriteLine("По запросу «  counter-strike 2 » ничего нет.");
 }
-Console.WriteLine($"Игр с рейтингом от 9: {highRated}");
 
-cs2.AddDostizhenie(1);
-Console.WriteLine($"CS2 достижений через список: {catalog[0].Dostizheniya}");
+games? missing = catalog.FindByName("Minecraft");
+Console.WriteLine($"Minecraft найден: {missing != null}");
+
+Console.WriteLine($"Удалён отсутствующий: {catalog.RemoveByName("Minecraft")}");
+Console.WriteLine($"Удалена PUBG: {catalog.RemoveByName("pubg")}");
+Console.WriteLine($"Игр после удаления: {catalog.GameCount}");
+
+Console.WriteLine($"Игр с рейтингом от 9: {catalog.CountHighRated(9)}");
 
 
 

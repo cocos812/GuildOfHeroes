@@ -29,3 +29,67 @@ public class games {
         return Proces > 0;
     }
 }
+public class GameCatalog {
+    private List<games> _games = new List<games>();
+
+    public string Name { get; private set; }
+
+    public int GameCount {
+        get { return _games.Count; }
+    }
+
+    public GameCatalog(string name) {
+        Name = name;
+    }
+
+    public bool AddGame(games game) {
+        if (FindByName(game.Nazv) != null) {
+            return false;
+        }
+
+        _games.Add(game);
+        return true;
+    }
+
+    public games? FindByName(string name) {
+        if (string.IsNullOrWhiteSpace(name)) {
+            return null;
+        }
+
+        string searchName = name.Trim();
+
+        foreach (games g in _games) {
+            if (string.Equals(g.Nazv, searchName, StringComparison.OrdinalIgnoreCase)) {
+                return g;
+            }
+        }
+
+        return null;
+    }
+
+    public bool RemoveByName(string name) {
+        games? game = FindByName(name);
+        if (game == null) {
+            return false;
+        }
+        return _games.Remove(game);
+    }
+
+    public List<games> GetGames() {
+        List<games> result = new List<games>();
+        foreach (games g in _games) {
+            result.Add(g);
+        }
+        return result;
+    }
+
+    public int CountHighRated(int minimum) {
+        int count = 0;
+        foreach (games g in _games) {
+            if (g.Reyt >= minimum) {
+                count += 1;
+            }
+        }
+        return count;
+    }
+}
