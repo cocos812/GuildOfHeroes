@@ -18,39 +18,30 @@ guild.AddHero(artem);
 guild.AddHero(alexander);
 guild.AddHero(sergey);
 
-List<Hero> members = guild.GetMembers();
+Console.WriteLine($">>> {guild.Name}: участников {guild.MemberCount} <<<");
+Console.WriteLine();
 
-Console.WriteLine($">>> {guild.Name}: перекличка <<<");
-Console.WriteLine($"Участников: {guild.MemberCount}");
+QuestBoard board = new QuestBoard(guild);
 
-if (members.Count > 0) {
-    Console.WriteLine($"Первый: {members[0].Name}");
-    Console.WriteLine($"Последний: {members[members.Count - 1].Name}");
+Quest floatQuest = new Quest(101, "Вернуть поплавок", 100, 30);
+Console.WriteLine($"Поручение добавлено: {board.AddQuest(floatQuest)}");
+Console.WriteLine($">>> №{floatQuest.Id}: {floatQuest.Title} <<<");
+
+Console.WriteLine($"Назначение Сергея: {board.TryAssign(101, " сЕрГеЙ ")}");
+Hero? assigned = floatQuest.AssignedHero;
+if (assigned != null) {
+    Console.WriteLine($"Исполнитель: {assigned.Name}");
 }
+Console.WriteLine($"Опыт после назначения: {sergey.Experience}");
+
+Console.WriteLine($"Завершение: {board.TryComplete(101)}");
+Console.WriteLine($"Опыт после завершения: {sergey.Experience}");
+Console.WriteLine($"Повторное завершение: {board.TryComplete(101)}");
+Console.WriteLine($"Опыт после повтора: {sergey.Experience}");
 
 Console.WriteLine();
-foreach (Hero hero in members) {
-    Console.WriteLine(hero.GetInfo());
-    Console.WriteLine();
-}
-
-// Hero? found = guild.FindHeroByName(" аРтЁм ");
-// if (found != null) {
-//     Console.WriteLine($"Найден по запросу « аРтЁм »: {found.Name}");
-// } else {
-//     Console.WriteLine("По запросу « аРтЁм » никого нет.");
-// }
-
-Console.WriteLine($"Повтор Александра принят: {guild.AddHero(alexander)}");
-Console.WriteLine($"Удалён отсутствующий: {guild.RemoveHero("Борис")}");
-Console.WriteLine($"Участников после проверок: {guild.MemberCount}");
-
-Console.WriteLine($"Могут нести тяжёлые ящики (здоровье от 120): {guild.CountHealthy(120)}");
-
-Hero? strongest = guild.FindStrongest();
-if (strongest != null) {
-    Console.WriteLine($"Самый здоровый: {strongest.Name} ({strongest.Health})");
-}
+Console.WriteLine(floatQuest.GetInfo());
+Console.WriteLine(sergey.GetInfo());
 
 
 
@@ -191,6 +182,13 @@ Console.WriteLine($"Удалена PUBG: {catalog.RemoveByName("pubg")}");
 Console.WriteLine($"Игр после удаления: {catalog.GameCount}");
 
 Console.WriteLine($"Игр с рейтингом от 9: {catalog.CountHighRated(9)}");
+
+Console.WriteLine();
+Console.WriteLine("=== ПР №6 ===");
+Playthrough play = new Playthrough();
+Console.WriteLine($"Старт прохождения Elden Ring: {play.TryStart(eldenRing)}");
+Console.WriteLine($"Завершение: {play.TryFinish()}");
+Console.WriteLine($"Повторное завершение: {play.TryFinish()}");
 
 
 

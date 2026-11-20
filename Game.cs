@@ -28,6 +28,9 @@ public class games {
     public bool igral() {
         return Proces > 0;
     }
+        public bool CanBeCompleted() {
+        return Proces == 0;
+    }
 }
 public class GameCatalog {
     private List<games> _games = new List<games>();
@@ -91,5 +94,41 @@ public class GameCatalog {
             }
         }
         return count;
+    }
+}
+public class Playthrough {
+public games? Target { get; private set; }
+public bool IsFinished { get; private set; }
+
+public bool TryStart(games game) {
+    if (IsFinished) {
+        return false;
+    }
+    if (Target != null) {
+        return false;
+     }
+        if (!game.CanBeCompleted()) {
+        return false;
+    }
+
+    Target = game;
+    return true;
+    }
+
+    public bool TryFinish() {
+        if (IsFinished) {
+            return false;
+        }
+        if (Target == null) {
+            return false;
+        }
+        if (!Target.CanBeCompleted()) {
+            return false;
+        }
+        
+        Target.Proces = 10;
+        Target.AddDostizhenie(1);
+        IsFinished = true;
+        return true;
     }
 }
